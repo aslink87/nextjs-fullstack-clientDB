@@ -13,7 +13,6 @@ module.exports = {
     '@storybook/preset-scss',
     'storybook-addon-next-router',
     "@storybook/addon-next",
-    /*
     {
       name: '@storybook/addon-postcss',
       options: {
@@ -22,7 +21,6 @@ module.exports = {
         },
       },
     },
-    */
   ],
   "framework": "@storybook/react",
   "core": {

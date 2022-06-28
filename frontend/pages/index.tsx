@@ -3,11 +3,10 @@ import { mockCatCardProps } from '../components/cards/cat/CatCard.mocks';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page';
 
-import styles from '../styles/Home.module.scss'
 
 const Home: NextPageWithLayout = () => {
   return (
-    <section className={styles.main}>
+    <section className="bg-gradient-to-r from-cyan-500 to-blue-500">
       <CatCard {...mockCatCardProps.base} />
       <p>
         Google offered in:{' '}
