@@ -8,7 +8,7 @@ export interface IForm {
   }
 }
 
-const Form: React.FC<IForm> = ({ id, attributes}) => {
+const Form: React.FC<IForm> = () => {
   return (
     <div className="w-full">
         <form action="#" method="POST" className="mt-5 md:mt-0 w-4/5 mx-auto">
