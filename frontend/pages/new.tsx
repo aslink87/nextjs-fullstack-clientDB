@@ -1,10 +1,11 @@
+import Form from '../components/form/Form';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page'
 
 const New: NextPageWithLayout = () => {
   return (
     <>
-      <h1>Hellof from New Page</h1>
+      <Form />
     </>
   )
 }
