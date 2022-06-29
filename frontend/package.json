@@ -2,11 +2,6 @@
   "name": "nextjs-fullstack-clientdb",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">=16.15.0",
-    "yarn": "please use npm",
-    "npm": ">=8.5.5"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -32,6 +27,7 @@
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
     "@storybook/addon-links": "^6.5.9",
+    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/builder-webpack5": "^6.5.9",
     "@storybook/manager-webpack5": "^6.5.9",
     "@storybook/preset-scss": "^1.0.3",
