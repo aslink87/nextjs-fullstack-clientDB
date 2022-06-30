@@ -22,7 +22,7 @@ export default async function handler(
   console.log(data)
   */
 
-  if (req.method === 'GET' && searchTerm && searchTerm.length > 0) {
+  if (req.method === 'POST' && searchTerm && searchTerm.length > 0) {
     const cleanedSearchTerm = searchTerm.toLowerCase().trim()
     const response = await fetch(`http://localhost:1337/api/individuals?filters[lastname][$eq]=${cleanedSearchTerm}`)
     const json = await response.json()
