@@ -87,6 +87,3 @@ const Form: React.FC<IForm> = () => {
 };
 
 export default Form;
-
-/*
-                  */

@@ -43,9 +43,9 @@ const Results: NextPageWithLayout<IResults> = ({ searchResults }) => {
     <>
       <section className="flex flex-col items-center gap-y-5">
         {hasResults ? (
-          <div className={`flex flex-col space-y-8`}>
-            {searchResults.map((result, idx) => {
-              return <SearchResult key={idx} {...result} />;
+          <div className={`flex flex-col space-y-8 w-full pb-4`}>
+            {searchResults.map((result) => {
+              return <SearchResult key={result.id} {...result} />;
             })}
           </div>
         ) : (
@@ -61,17 +61,3 @@ export default Results;
 Results.getLayout = (page) => {
   return <PrimaryLayout justify="items-start">{page}</PrimaryLayout>;
 };
-
-/*
-      <section className="flex flex-col items-center gap-y-5">
-        {hasResults ? (
-          <div className={`flex flex-col space-y-8`}>
-            {searchResults.map((result, idx) => {
-              return <SearchResult key={idx} {...result} />;
-            })}
-          </div>
-        ) : (
-          <p>No results found.</p>
-        )}
-      </section>
-*/
