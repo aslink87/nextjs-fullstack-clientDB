@@ -282,13 +282,14 @@ onChange={(date: Date) => setBirthdate(date)} />
                       Income
                     </span>
                     <NumberInput
+                      className="w-full"
                       allowMouseWheel
                       variant="unstyled"
                       precision={2}
                       step={1}
                       min={0}
                     >
-                      <NumberInputField className="income h-10 focus:ring-indigo-500 rounded-none rounded-r-md sm:text-sm border-2 border-gray-300" ref={incomeInputRef} />
+                      <NumberInputField className="income h-10 w-full focus:ring-indigo-500 rounded-none rounded-r-md sm:text-sm border-2 border-gray-300" ref={incomeInputRef} />
                     </NumberInput>
                   </div>
                   <div className="col-span-2 mt-1 flex rounded-md shadow-sm h-10">
@@ -317,6 +318,7 @@ onChange={(date: Date) => setBirthdate(date)} />
                       Mortgage
                     </span>
                     <NumberInput
+                      className="w-full"
                       allowMouseWheel
                       variant="unstyled"
                       precision={2}
@@ -331,6 +333,7 @@ onChange={(date: Date) => setBirthdate(date)} />
                       Rent
                     </span>
                     <NumberInput
+                      className="w-full"
                       allowMouseWheel
                       variant="unstyles"
                       precision={2}
