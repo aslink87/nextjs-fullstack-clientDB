@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from "next/router";
 
 import { ClientModel } from "../../lib/new/types";
 
@@ -23,6 +24,9 @@ const IndividualForm = () => {
   const [userFirstname, setUserFirstname] = useState('')
   const [userAddress, setUserAddress] = useState('')
   const [notesValue, setNotesValue] = useState('')
+  const [enteredData, setEnteredData] = useState([{}])
+
+  const router = useRouter();
 
   const firstnameInputRef = useRef<HTMLInputElement>(null);
   const lastnameInputRef = useRef<HTMLInputElement>(null);
@@ -65,17 +69,17 @@ const IndividualForm = () => {
         showMonthDropdown
         showYearDropdown
         dropdownMode="select"
-onChange={(date: Date) => setBirthdate(date)} />
+        onChange={(date: Date) => setBirthdate(date)} />
     );
   }
 
-  const onSubmitHandler = (event: React.FormEvent) => {
+  const onSubmitHandler = async(event: React.FormEvent) => {
     event.preventDefault()
     const incomeInput: number = incomeInputRef.current?.value.trim() != undefined ? +incomeInputRef.current?.value.trim() : 0;
     const mortgageInput: number = mortgageInputRef.current?.value.trim() != undefined ? +mortgageInputRef.current?.value.trim() : 0;
     const rentInput: number = rentInputRef.current?.value.trim() != undefined ? +rentInputRef.current?.value.trim() : 0;
 
-    const enteredData: ClientModel = {
+    const data: ClientModel = {
       firstname: firstnameInputRef.current!.value,
       lastname: lastnameInputRef.current!.value,
       middlename: middlenameInputRef.current!.value,
@@ -102,7 +106,15 @@ onChange={(date: Date) => setBirthdate(date)} />
       programs: programsInputRef.current!.value,
       notes: notesValue,
     }
-    console.log(enteredData)
+    setEnteredData(enteredData)
+    await fetch(`http://localhost:3000/api/new`, {
+      body: JSON.stringify({ data }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    })
+    await router.push(`/results?search=${data.lastname}`);
   }
 
   return (
