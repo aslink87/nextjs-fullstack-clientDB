@@ -1,4 +1,4 @@
-import Form from '../components/form/FormChackra';
+import Form from '../components/form/Form';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import { NextPageWithLayout } from './page'
 
