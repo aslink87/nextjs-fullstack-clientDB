@@ -37,7 +37,6 @@ export const getServerSideProps: GetServerSideProps<IResults> = async ({
 
 const Results: NextPageWithLayout<IResults> = ({ searchResults }) => {
   const hasResults = searchResults.length > 0;
-  console.log(searchResults)
 
   return (
     <>

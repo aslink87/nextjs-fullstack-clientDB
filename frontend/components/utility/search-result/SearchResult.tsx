@@ -1,4 +1,5 @@
 import { ISearchData } from '../../../lib/search/types';
+import UpdateClient from '../updateClient/UpdateClient';
 
 export type ISearchResult = ISearchData & React.ComponentPropsWithoutRef<'div'>;
 
@@ -34,62 +35,62 @@ const SearchResult: React.FC<ISearchResult | any> = ({
     else return attributes.source
   }
 
-
   return (
     <div
       {...divProps}
       className={'flex flex-col w-5/6 max-w-screen-md space-y-1 mx-auto'}
     >
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">Client Information</h3>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details</p>
+        <div className="px-4 py-5 sm:px-6">
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Client Information</h3>
+          <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details</p>
+        </div>
+        <div className="border-t border-gray-200">
+          <dl>
+            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Full name</dt>
+              <dd className="uppercase mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.firstname}{' '}{attributes.middlename}{' '}{attributes.lastname}</dd>
+            </div>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Birthdate</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.birthdate} age: {age}</dd>
+            </div>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Gender</dt>
+              <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{gender()}</dd>
+            </div>
+            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Email address</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.email}</dd>
+            </div>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Church</dt>
+              <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.church}</dd>
+            </div>
+            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Details</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {attributes.veteran != false ? <p>Veteran</p> : null}
+                {attributes.disabled != false ? <p>Disabled</p> : null}
+                {attributes.ebt != false ? <p>EBT</p> : null}
+              </dd>
+            </div>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Income</dt>
+              <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">${attributes.income}</dd>
+            </div>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Income Source</dt>
+              <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{source()}</dd>
+            </div>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Notes</dt>
+              <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.notes}</dd>
+            </div>
+          </dl>
+        </div>
+          <UpdateClient />
       </div>
-      <div className="border-t border-gray-200">
-        <dl>
-          <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Full name</dt>
-            <dd className="uppercase mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.firstname}{' '}{attributes.middlename}{' '}{attributes.lastname}</dd>
-          </div>
-          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Birthdate</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.birthdate} age: {age}</dd>
-          </div>
-          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Gender</dt>
-            <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{gender()}</dd>
-          </div>
-          <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Email address</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.email}</dd>
-          </div>
-          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Church</dt>
-            <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.church}</dd>
-          </div>
-          <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Details</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {attributes.veteran != false ? <p>Veteran</p> : null}
-              {attributes.disabled != false ? <p>Disabled</p> : null}
-              {attributes.ebt != false ? <p>EBT</p> : null}
-            </dd>
-          </div>
-          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Income</dt>
-            <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">${attributes.income}</dd>
-          </div>
-          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Income Source</dt>
-            <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{source()}</dd>
-          </div>
-          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Notes</dt>
-            <dd className="capitalize mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.notes}</dd>
-          </div>
-        </dl>
-      </div>
-    </div>
     </div>
   );
 };

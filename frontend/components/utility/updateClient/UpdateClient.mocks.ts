@@ -7,6 +7,6 @@ const base = {
   }
 };
 
-export const mockSearchResultProps = {
+export const mockUpdateClientProps = {
   base,
 };

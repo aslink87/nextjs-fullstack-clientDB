@@ -1,3 +1,10 @@
+import {
+  NumberInput,
+  NumberInputField,
+} from "@chakra-ui/react";
+import { useState, useRef } from "react";
+import Select from 'react-select'
+
 export interface IForm {
   id: number;
   attributes: {
@@ -9,6 +16,69 @@ export interface IForm {
 }
 
 const Form: React.FC<IForm> = () => {
+
+  const [ cityOption, setCityOption ] = useState<[{}]>()
+  const [ countyOption, setCountyOption ] = useState<[{}]>()
+  const [ districtOption, setDistrictOption ] = useState<[{}]>()
+  const [ sourceOption, setSourceOption ] = useState<[{}]>()
+  const options = [
+    { value: 'plainwell', label: 'Plainwell'},
+    { value: 'alamo', label: 'Alamo'},
+    { value: 'cooper', label: 'Cooper'},
+    { value: 'gunplain', label: 'Gun Plain'},
+    { value: 'martin', label: 'Martin'},
+    { value: 'otsego', label: 'Otsego'},
+    { value: 'otsegotownship', label: 'Otsego Township'},
+    { value: 'trowbridge', label: 'Trowbridge Township'},
+    { value: 'watson', label: 'Watson'},
+  ]
+  const handleCityChange = (cityOption) => {
+    setCityOption(cityOption.value);
+  }
+  const optionsCounty = [
+    { value: 'allegan', label: 'Allegan'},
+    { value: 'barry', label: 'Barry'},
+    { value: 'calhoun', label: 'Calhoun'},
+    { value: 'genesee', label: 'Genesee'},
+    { value: 'kalamazoo', label: 'Kalamazoo'},
+    { value: 'kent', label: 'Kent'},
+    { value: 'ottawa', label: 'Ottawa'},
+    { value: 'vanburen', label: 'Van Buren'},
+  ]
+  const handleCountyChange = (countyOption) => {
+    setCountyOption(countyOption.value);
+  }
+  const optionsDistrict = [
+    { value: 'plainwell', label: 'Plainwell'},
+    { value: 'allegan', label: 'Allegan'},
+    { value: 'otsego', label: 'Otsego'},
+    { value: 'deltonkellogg', label: 'Delton-Kellog'},
+    { value: 'kalamazoo', label: 'Kalamazoo'},
+    { value: 'hamilton', label: 'Hamilton'},
+    { value: 'martin', label: 'Martin'},
+    { value: 'outofservice', label: 'Out-of-service'},
+  ]
+  const handleDistrictChange = (districtOption) => {
+    setDistrictOption(districtOption.value);
+  }
+  const optionsSource = [
+    { value: 'none', label: 'None'},
+    { value: 'childsupport', label: 'Child Support'},
+    { value: 'pension', label: 'Pension'},
+    { value: 'privatedisability', label: 'Private Disability'},
+    { value: 'earnedincome', label: 'Earned income'},
+    { value: 'ssr', label: 'Social Security Retirement'},
+    { value: 'ssi', label: 'SSI'},
+    { value: 'ssdi', label: 'SSDI'},
+    { value: 'unemployment', label: 'Unemployment'},
+    { value: 'other', label: 'Other'},
+  ]
+  const handleSourceChange = (sourceOption) => {
+    setSourceOption(sourceOption.value);
+  }
+
+  const firstnameInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className="w-full">
         <form action="#" method="POST" className="mt-5 md:mt-0 w-4/5 mx-auto">
@@ -22,18 +92,17 @@ const Form: React.FC<IForm> = () => {
                   <input
                     type="text"
                     name="firstname-input"
-                    id="firstname"
+                    ref={firstnameInputRef}
                     className="firstname focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-14 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
                 </div>
-                <div className="col-span-2 mt-1 flex rounded-md shadow-sm">
+                <div className="col-span-3 mt-1 flex rounded-md shadow-sm">
                   <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     Last
                   </span>
                   <input
                     type="text"
                     name="lastname-input"
-                    id="lastname"
                     className="lastname focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-14 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
                 </div>
@@ -44,7 +113,6 @@ const Form: React.FC<IForm> = () => {
                   <input
                     type="text"
                     name="middlename-input"
-                    id="middlename"
                     className="middlename focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-14 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
                 </div>
@@ -55,19 +123,96 @@ const Form: React.FC<IForm> = () => {
                   <input
                     type="date"
                     name="birthdate-input"
-                    id="birthdate"
                     className="birthdate focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-14 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
                 </div>
-                <div className="col-span-2 mt-1 flex rounded-md shadow-sm">
+                <div className="col-span-3 mt-1 flex rounded-md shadow-sm">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    Email
+                  </span>
+                  <input
+                    type="text"
+                    name="email-input"
+                    className="email focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-14 rounded-none rounded-r-md sm:text-sm border-gray-300"
+                  />
+                </div>
+                <div className="col-span-3 mt-1 flex rounded-md shadow-sm">
                   <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
                     Address
                   </span>
                   <input
                     type="text"
                     name="address-input"
-                    id="address"
                     className="address focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-14 rounded-none rounded-r-md sm:text-sm border-gray-300"
+                  />
+                </div>
+                <div className="col-span-2 mt-1 flex rounded-md">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    City
+                  </span>
+                  <Select
+                    defaultValue={cityOption}
+                    onChange={handleCityChange}
+                    options={options}
+                    className="w-44"
+                  />
+                </div>
+                <div className="col-span-2 mt-1 flex rounded-md">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    County
+                  </span>
+                  <Select
+                    defaultValue={countyOption}
+                    onChange={handleCountyChange}
+                    options={optionsCounty}
+                    className="w-44"
+                  />
+                </div>
+                <div className="col-span-2 mt-1 flex rounded-md">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    District
+                  </span>
+                  <Select
+                    defaultValue={districtOption}
+                    onChange={handleDistrictChange}
+                    options={optionsDistrict}
+                    className="w-44"
+                  />
+                </div>
+                <div className="col-span-3 mt-1 flex rounded-md shadow-sm">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    Church
+                  </span>
+                  <input
+                    type="text"
+                    name="church-input"
+                    className="church focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-14 rounded-none rounded-r-md sm:text-sm border-gray-300"
+                  />
+                </div>
+                <div className="col-span-2 mt-1 flex rounded-md shadow-sm">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    Income
+                  </span>
+                  <NumberInput
+                    size="lg"
+                    allowMouseWheel
+                    variant="filled"
+                    precision={2}
+                    step={1}
+                    min={0}
+                  >
+                    <NumberInputField />
+                  </NumberInput>
+                </div>
+                <div className="col-span-3 mt-1 flex rounded-md">
+                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                    Source
+                  </span>
+                  <Select
+                    defaultValue={sourceOption}
+                    onChange={handleSourceChange}
+                    options={optionsSource}
+                    className="w-64"
                   />
                 </div>
               </div>
