@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 
 import { ClientModel } from "../../lib/new/types";
+import { IApiSearchResponseData } from "../../pages/api/verify";
 
 // props: { onLastNameChange: string, onAddressChange: string, onSaveEnteredData: {}}
 const IndividualForm = () => {
@@ -25,6 +26,8 @@ const IndividualForm = () => {
   const [userAddress, setUserAddress] = useState('')
   const [notesValue, setNotesValue] = useState('')
   const [enteredData, setEnteredData] = useState([{}])
+  const [nameverify, setNameverify] = useState(false)
+  const [nameResult, setNameResult] = useState('')
 
   const router = useRouter();
 
@@ -116,6 +119,31 @@ const IndividualForm = () => {
     })
     await router.push(`/results?search=${data.lastname}`);
   }
+
+  // verify if client with same lastname already exists
+  // TODO: search with firstname against lastname if it already exists to find if client with matching fist and lastname exists
+  // TODO: add address verification, change DOM if client already exists
+  useEffect(() => {
+    if (userLastname.length >= 3) {
+      fetch('http://localhost:3000/api/verify', {
+        body: JSON.stringify({ userLastname }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.length > 0) {
+            setNameverify(true)
+            setNameResult(data[0].attributes.lastname)
+          } else {
+            setNameverify(false)
+            setNameResult('')
+          }
+        })
+    }
+  }, [userLastname])
 
   return (
     <>
@@ -507,16 +535,3 @@ const IndividualForm = () => {
 }
 
 export default IndividualForm
-
-/*
-                <label>Notes:</label>
-              <Button
-                type="submit"
-                isDisabled={false}
-                id="submit-button"
-                size="lg"
-                variant="solid"
-                colorScheme="yellow"
-                height="50px"
-                borderRadius="5px"
-              > ADD CLIENT </Button> */
