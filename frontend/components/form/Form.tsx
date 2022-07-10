@@ -15,7 +15,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 
 import { ClientModel } from "../../lib/new/types";
-import { IApiSearchResponseData } from "../../pages/api/verify";
 
 // props: { onLastNameChange: string, onAddressChange: string, onSaveEnteredData: {}}
 const IndividualForm = () => {
@@ -26,8 +25,11 @@ const IndividualForm = () => {
   const [userAddress, setUserAddress] = useState('')
   const [notesValue, setNotesValue] = useState('')
   const [enteredData, setEnteredData] = useState([{}])
-  const [nameverify, setNameverify] = useState(false)
+  const [nameVerify, setNameVerify] = useState(false)
+  const [addressVerify, setAddressVerify] = useState(false)
+  const [addressResult, setAddressResult] = useState('')
   const [nameResult, setNameResult] = useState('')
+  const [firstnameResult, setFirstnameResult] = useState('')
 
   const router = useRouter();
 
@@ -122,7 +124,6 @@ const IndividualForm = () => {
 
   // verify if client with same lastname already exists
   // TODO: search with firstname against lastname if it already exists to find if client with matching fist and lastname exists
-  // TODO: add address verification, change DOM if client already exists
   useEffect(() => {
     if (userLastname.length >= 3) {
       fetch('http://localhost:3000/api/verify', {
@@ -135,15 +136,49 @@ const IndividualForm = () => {
       .then(response => response.json())
       .then(data => {
           if (data.length > 0) {
-            setNameverify(true)
+            setNameVerify(true)
             setNameResult(data[0].attributes.lastname)
+            setFirstnameResult(data[0].attributes.firstname)
+            if(data[0].attributes.household) {
+              setAddressResult(data[0].attributes.household.data.attributes.address)
+            }
           } else {
-            setNameverify(false)
+            setNameVerify(false)
             setNameResult('')
+            setFirstnameResult('')
+            setAddressResult('')
           }
         })
     }
   }, [userLastname])
+
+  //TODO: maybe separate firstname verification to separate useEffect
+  useEffect(() => {
+    if (userAddress.length >= 5) {
+      const cleanedAddress = userAddress.toLowerCase().trim()
+      const cleanedFirstname = userFirstname.toLowerCase().trim()
+      if (cleanedAddress === addressResult) {
+        if (cleanedFirstname === firstnameResult) {
+          document.getElementById("notice")!.style.display = "inline-flex"
+          const text = "That client already exists"
+          document.getElementById("notice")!.innerHTML = ''
+          document.getElementById("notice")!.insertAdjacentHTML("beforeend", text)
+          document.getElementById("submit-button")!.style.display = "none"
+        } else {
+          document.getElementById("notice")!.style.display = "inline-flex"
+          const text = "A household already exists at that address, this client will be added to that household."
+          document.getElementById("notice")!.innerHTML = ''
+          document.getElementById("notice")!.insertAdjacentHTML("beforeend", text)
+          document.getElementById("submit-button")!.style.display = "inline-flex"
+        }
+      } else {
+        document.getElementById("notice")!.style.display = "none"
+        document.getElementById("notice")!.innerHTML = ''
+      }
+    } else {
+      setAddressVerify(false)
+    }
+  }, [userAddress, addressResult, userFirstname, firstnameResult])
 
   return (
     <>
@@ -151,6 +186,7 @@ const IndividualForm = () => {
         <form className="mt-5 md:mt-0 w-4/5 mx-auto" id="client-form" onSubmit={onSubmitHandler}>
           <div className="shadow sm:rounded-md sm:overflow-hidden">
             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+            <div id="notice" className="hidden w-full text-center"></div>
               <div className="grid grid-cols-6 gap-5 grid-flow-row">
                   <div className="col-span-1 mt-1 flex rounded-md h-10">
                     <span className="inline-flex items-center px-3 rounded-l-md border-2 border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">

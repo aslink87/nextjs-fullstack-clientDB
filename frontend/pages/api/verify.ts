@@ -24,7 +24,7 @@ export default async function handler(
 
   if (req.method === 'POST' && userLastname && userLastname.length >= 3) {
     const cleanedSearchName = userLastname.toLowerCase().trim()
-    const response = await fetch(`http://localhost:1337/api/individuals?filters[lastname][$eq]=${cleanedSearchName}`)
+    const response = await fetch(`http://localhost:1337/api/individuals?populate=*&filters[lastname][$eq]=${cleanedSearchName}`)
     const json = await response.json()
     const data = json.data
     res.status(200).json(data)
