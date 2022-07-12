@@ -32,8 +32,6 @@ const IndividualForm = (props: {onSaveEnteredData: any}) => {
   const [lastnameResult, setLastnameResult] = useState('')
   const [firstnameResult, setFirstnameResult] = useState<string[]>([])
 
-  const router = useRouter();
-
   const firstnameInputRef = useRef<HTMLInputElement>(null);
   const lastnameInputRef = useRef<HTMLInputElement>(null);
   const middlenameInputRef = useRef<HTMLInputElement>(null);
@@ -113,16 +111,6 @@ const IndividualForm = (props: {onSaveEnteredData: any}) => {
       notes: notesValue,
     }
     setEnteredData(enteredData)
-    /*
-    await fetch(`http://localhost:3000/api/new`, {
-      body: JSON.stringify({ data }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
-    await router.push(`/results?search=${data.lastname}`);
-    */
 
     const household = addressId
     props.onSaveEnteredData(data, household)
@@ -161,6 +149,7 @@ const IndividualForm = (props: {onSaveEnteredData: any}) => {
             setFirstnameResult([])
             setAddressResult('')
             setFirstnameResult([])
+            setAddressId(0)
           }
         })
     }
