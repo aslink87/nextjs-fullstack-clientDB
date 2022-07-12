@@ -28,8 +28,8 @@ const IndividualForm = () => {
   const [nameVerify, setNameVerify] = useState(false)
   const [addressVerify, setAddressVerify] = useState(false)
   const [addressResult, setAddressResult] = useState('')
-  const [nameResult, setNameResult] = useState('')
-  const [firstnameResult, setFirstnameResult] = useState('')
+  const [lastnameResult, setLastnameResult] = useState('')
+  const [firstnameResult, setFirstnameResult] = useState<string[]>([])
 
   const router = useRouter();
 
@@ -122,8 +122,7 @@ const IndividualForm = () => {
     await router.push(`/results?search=${data.lastname}`);
   }
 
-  // verify if client with same lastname already exists
-  // TODO: search with firstname against lastname if it already exists to find if client with matching fist and lastname exists
+  // check DB for users with same lastname as input store results in state
   useEffect(() => {
     if (userLastname.length >= 3) {
       fetch('http://localhost:3000/api/verify', {
@@ -136,49 +135,107 @@ const IndividualForm = () => {
       .then(response => response.json())
       .then(data => {
           if (data.length > 0) {
-            setNameVerify(true)
-            setNameResult(data[0].attributes.lastname)
-            setFirstnameResult(data[0].attributes.firstname)
+            setLastnameResult(data[0].attributes.lastname)
             if(data[0].attributes.household) {
               setAddressResult(data[0].attributes.household.data.attributes.address)
             }
+            // store all firstnames with same lastname as state firstnameResult
+            if (data.length > 1) {
+              let firstnames: string[] = []
+              data.map((i:any) => {
+                firstnames.push(i.attributes.firstname)
+              })
+              setFirstnameResult(firstnames)
+            } else {
+              setFirstnameResult(data[0].attributes.firstname)
+            }
           } else {
-            setNameVerify(false)
-            setNameResult('')
-            setFirstnameResult('')
+            setLastnameResult('')
+            setFirstnameResult([])
             setAddressResult('')
           }
         })
     }
   }, [userLastname])
 
-  //TODO: maybe separate firstname verification to separate useEffect
+  // if input lastname and firstname already exist in DB notify user
+  useEffect(() => {
+    if (userFirstname.length > 0) {
+      const cleanedFirstname = userFirstname.toLowerCase().trim()
+      if (firstnameResult.includes(cleanedFirstname)) {
+        document.getElementById("notice")!.style.display = "inline-flex"
+        const text = "That client already exists"
+        document.getElementById("notice")!.innerHTML = ''
+        document.getElementById("notice")!.insertAdjacentHTML("beforeend", text)
+        document.getElementById("submit-button")!.style.display = "none"
+        setNameVerify(true)
+      } else {
+        document.getElementById("notice")!.style.display = "hidden"
+        document.getElementById("notice")!.innerHTML = ''
+        document.getElementById("submit-button")!.style.display = "inline-flex"
+        setNameVerify(false)
+        //POST new client and household
+      }
+    }
+  }, [userFirstname, firstnameResult])
+
+  // with entered address, check if firstname already exists at that address, notify user client exists
+  // else if entered address already exists but not entered name then notify user the new client will be added to existing address
   useEffect(() => {
     if (userAddress.length >= 5) {
       const cleanedAddress = userAddress.toLowerCase().trim()
       const cleanedFirstname = userFirstname.toLowerCase().trim()
-      if (cleanedAddress === addressResult) {
-        if (cleanedFirstname === firstnameResult) {
+        if (firstnameResult.includes(cleanedFirstname) && cleanedAddress === addressResult || cleanedAddress != addressResult && nameVerify === true) {
           document.getElementById("notice")!.style.display = "inline-flex"
           const text = "That client already exists"
           document.getElementById("notice")!.innerHTML = ''
           document.getElementById("notice")!.insertAdjacentHTML("beforeend", text)
           document.getElementById("submit-button")!.style.display = "none"
-        } else {
+        } else if (cleanedAddress === addressResult) {
           document.getElementById("notice")!.style.display = "inline-flex"
           const text = "A household already exists at that address, this client will be added to that household."
           document.getElementById("notice")!.innerHTML = ''
           document.getElementById("notice")!.insertAdjacentHTML("beforeend", text)
           document.getElementById("submit-button")!.style.display = "inline-flex"
+          //POST new client, PUT existing household
+        } else {
+          document.getElementById("notice")!.style.display = "hidden"
+          document.getElementById("notice")!.innerHTML = ''
+          document.getElementById("submit-button")!.style.display = "inline-flex"
+          //POST new client and household
         }
-      } else {
-        document.getElementById("notice")!.style.display = "none"
-        document.getElementById("notice")!.innerHTML = ''
-      }
     } else {
       setAddressVerify(false)
     }
-  }, [userAddress, addressResult, userFirstname, firstnameResult])
+  }, [userAddress, addressResult, userFirstname, firstnameResult, nameVerify])
+
+  // check DB for existting lastname without address in case of homeless household
+  // if lastname without address exists notify user
+  // if lastname exists and entered firstname matches existing firstname belonging to lastname, notify user
+  useEffect(() => {
+    const cleanedLastname = userLastname.toLowerCase().trim()
+    const cleanedFirstname = userFirstname.toLowerCase().trim()
+    const length = userLastname.length >= 3
+    if (length && cleanedLastname === lastnameResult && firstnameResult.includes(cleanedFirstname)) {
+      document.getElementById("notice")!.style.display = "inline-flex"
+      const text = "That client already exists"
+      document.getElementById("notice")!.innerHTML = ''
+      document.getElementById("notice")!.insertAdjacentHTML("beforeend", text)
+      document.getElementById("submit-button")!.style.display = "none"
+    } else if (length && cleanedLastname === lastnameResult && !firstnameResult.includes(cleanedFirstname)) {
+      document.getElementById("notice")!.style.display = "inline-flex"
+      const text = "A homeless household already exists with that lastname, this client will be added to that household."
+      document.getElementById("notice")!.innerHTML = ''
+      document.getElementById("notice")!.insertAdjacentHTML("beforeend", text)
+      document.getElementById("submit-button")!.style.display = "inline-flex"
+      //POST new client, PUT existing homeless household
+    } else {
+      document.getElementById("notice")!.style.display = "hidden"
+      document.getElementById("notice")!.innerHTML = ''
+      document.getElementById("submit-button")!.style.display = "inline-flex"
+      //POST new client and household
+    }
+  }, [userFirstname, userLastname, firstnameResult, lastnameResult])
 
   return (
     <>
