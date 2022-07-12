@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { ClientModel } from "../../lib/new/types";
 
 // props: { onLastNameChange: string, onAddressChange: string, onSaveEnteredData: {}}
-const IndividualForm = () => {
+const IndividualForm = (props: {onSaveEnteredData: {}}) => {
 
   const [birthdate, setBirthdate] = useState(new Date());
   const [userLastname, setUserLastname] = useState('')
@@ -28,6 +28,7 @@ const IndividualForm = () => {
   const [nameVerify, setNameVerify] = useState(false)
   const [addressVerify, setAddressVerify] = useState(false)
   const [addressResult, setAddressResult] = useState('')
+  const [addressId, setAddressId] = useState<number>(0)
   const [lastnameResult, setLastnameResult] = useState('')
   const [firstnameResult, setFirstnameResult] = useState<string[]>([])
 
@@ -112,6 +113,7 @@ const IndividualForm = () => {
       notes: notesValue,
     }
     setEnteredData(enteredData)
+    /*
     await fetch(`http://localhost:3000/api/new`, {
       body: JSON.stringify({ data }),
       headers: {
@@ -120,6 +122,10 @@ const IndividualForm = () => {
       method: 'POST',
     })
     await router.push(`/results?search=${data.lastname}`);
+    */
+
+    const household = addressId
+    props.onSaveEnteredData(data, household)
   }
 
   // check DB for users with same lastname as input store results in state
@@ -138,6 +144,7 @@ const IndividualForm = () => {
             setLastnameResult(data[0].attributes.lastname)
             if(data[0].attributes.household) {
               setAddressResult(data[0].attributes.household.data.attributes.address)
+              setAddressId(data[0].attributes.household.data.id)
             }
             // store all firstnames with same lastname as state firstnameResult
             if (data.length > 1) {
@@ -153,6 +160,7 @@ const IndividualForm = () => {
             setLastnameResult('')
             setFirstnameResult([])
             setAddressResult('')
+            setFirstnameResult([])
           }
         })
     }
@@ -216,7 +224,8 @@ const IndividualForm = () => {
     const cleanedLastname = userLastname.toLowerCase().trim()
     const cleanedFirstname = userFirstname.toLowerCase().trim()
     const length = userLastname.length >= 3
-    if (length && cleanedLastname === lastnameResult && firstnameResult.includes(cleanedFirstname)) {
+    const firstnameLength = cleanedFirstname.length >= 3
+    if (length && cleanedLastname === lastnameResult && firstnameResult.includes(cleanedFirstname) && firstnameLength) {
       document.getElementById("notice")!.style.display = "inline-flex"
       const text = "That client already exists"
       document.getElementById("notice")!.innerHTML = ''
@@ -236,6 +245,8 @@ const IndividualForm = () => {
       //POST new client and household
     }
   }, [userFirstname, userLastname, firstnameResult, lastnameResult])
+
+
 
   return (
     <>
