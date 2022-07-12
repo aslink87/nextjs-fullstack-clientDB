@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { ClientModel } from "../../lib/new/types";
 
 // props: { onLastNameChange: string, onAddressChange: string, onSaveEnteredData: {}}
-const IndividualForm = (props: {onSaveEnteredData: {}}) => {
+const IndividualForm = (props: {onSaveEnteredData: any}) => {
 
   const [birthdate, setBirthdate] = useState(new Date());
   const [userLastname, setUserLastname] = useState('')
