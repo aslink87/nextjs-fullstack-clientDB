@@ -10,7 +10,10 @@
     "prettier": "prettier --write .",
     "prepare": "cd .. && husky install",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "analyze": "cross-env ANALYZE=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
@@ -29,6 +32,7 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
+    "@next/bundle-analyzer": "^12.2.2",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
@@ -46,6 +50,7 @@
     "@types/react-dom": "18.0.5",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "eslint": "8.18.0",
     "eslint-config-next": "12.1.6",
