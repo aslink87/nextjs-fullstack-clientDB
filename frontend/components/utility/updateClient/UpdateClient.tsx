@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 
 export interface IUpdateClient {id: number, attributes: {}}
 
-const UpdateClient: React.FC<IUpdateClient> = ({id, ...attributes}) => {
+const UpdateClient: React.FC<IUpdateClient> = ({id, ...attributes}: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter();
 
