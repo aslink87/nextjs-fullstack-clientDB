@@ -9,7 +9,7 @@ const Search: React.FC<ISearch> = () => {
 
   return (
     <form
-      className="flex flex-col items-center gap-y-5"
+      className="flex flex-col items-center gap-y-5 py-10"
       onSubmit={(e) => {
         e.preventDefault();
         router.push(`/results?search=${searchTerm}`);
@@ -21,17 +21,6 @@ const Search: React.FC<ISearch> = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <div className="space-x-3">
-        <button type="submit" className="btn-primary">
-          Google Search
-        </button>
-        <button
-          onClick={() => alert('FEATURE COMING SOON!')}
-          className="btn-primary"
-        >
-          I&apos;m Feeling Lucky
-        </button>
-      </div>
     </form>
   );
 };

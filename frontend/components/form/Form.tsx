@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useRouter } from "next/router";
 
 import { ClientModel } from "../../lib/new/types";
 
@@ -90,6 +89,7 @@ const IndividualForm = (props: {onSaveEnteredData: any}) => {
       birthdate: birthdate.toISOString().split('T')[0],
       email: emailInputRef.current!.value,
       income: incomeInput,
+      source: incomeSourceInputRef.current!.value,
       address: addressInputRef.current!.value,
       city: cityInputRef.current!.value,
       zipcode: +zipcodeInputRef.current!.value,

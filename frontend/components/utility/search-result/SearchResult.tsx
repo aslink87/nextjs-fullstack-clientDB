@@ -4,6 +4,7 @@ import UpdateClient from '../updateClient/UpdateClient';
 export type ISearchResult = ISearchData & React.ComponentPropsWithoutRef<'div'>;
 
 const SearchResult: React.FC<ISearchResult | any> = ({
+  id,
   attributes,
   ...divProps
 }) => {
@@ -89,7 +90,7 @@ const SearchResult: React.FC<ISearchResult | any> = ({
             </div>
           </dl>
         </div>
-          <UpdateClient />
+          <UpdateClient id={id}{...attributes} />
       </div>
     </div>
   );
