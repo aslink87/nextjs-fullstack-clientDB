@@ -10,13 +10,11 @@ import {
   Input,
   FormControl,
 } from "@chakra-ui/react";
+import { ClientModel } from "../../lib/new/types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { ClientModel } from "../../lib/new/types";
-
-// props: { onLastNameChange: string, onAddressChange: string, onSaveEnteredData: {}}
-const IndividualForm = ({onSaveEnteredData, ...attributes}) => {
+const IndividualForm: React.FC  = ({onSaveEnteredData, ...attributes}: any) => {
   const [birthdate, setBirthdate] = useState(new Date());
   const [userLastname, setUserLastname] = useState(attributes.lastname)
   const [userFirstname, setUserFirstname] = useState(attributes.firstname)
