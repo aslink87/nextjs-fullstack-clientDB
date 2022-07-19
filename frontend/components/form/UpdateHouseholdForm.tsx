@@ -40,7 +40,7 @@ const HouseholdForm = (props: {onSaveEnteredData: any, id: number}) => {
                     _placeholder={{ opacity: 0.5, color: "#003768" }}
                     ref={addressInputRef}
                     value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    onChange={(e) => setAddress(+e.target.value)}
                   />
                 </div>
             </div>
