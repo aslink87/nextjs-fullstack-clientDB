@@ -5,8 +5,8 @@ import {
 } from "@chakra-ui/react";
 import { HouseholdModel } from "../../lib/new/types";
 
-const HouseholdForm = (props: {onSaveEnteredData: any, id: number}) => {
-  const [address, setAddress] = useState(props.id)
+const HouseholdForm = (props: {onSaveEnteredData: any, lastname: string, household: {id : number, attributes: HouseholdModel}}) => {
+  const [address, setAddress] = useState(props.household.attributes.address)
 
   const addressInputRef = useRef<HTMLInputElement>(null);
 
@@ -14,7 +14,7 @@ const HouseholdForm = (props: {onSaveEnteredData: any, id: number}) => {
     event.preventDefault()
 
     const enteredData: HouseholdModel = {
-      id: 69,
+      id: props.household.id,
       address: addressInputRef.current!.value,
     }
     props.onSaveEnteredData(enteredData)
@@ -40,7 +40,7 @@ const HouseholdForm = (props: {onSaveEnteredData: any, id: number}) => {
                     _placeholder={{ opacity: 0.5, color: "#003768" }}
                     ref={addressInputRef}
                     value={address}
-                    onChange={(e) => setAddress(+e.target.value)}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
             </div>

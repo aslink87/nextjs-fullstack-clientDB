@@ -24,7 +24,6 @@ export default async function handler(
         ...data
       }
     }
-    console.log(updateData)
     const response = await fetch(`http://localhost:1337/api/individuals/${data.id}`, {
       body: JSON.stringify(updateData),
       headers: {

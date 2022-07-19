@@ -27,8 +27,6 @@ export default async function handler(
     const response = await fetch(`http://localhost:1337/api/individuals?filters[lastname][$eq]=${cleanedSearchTerm}`)
     const json = await response.json()
     const data = json.data
-    console.log("get", data)
-
     res.status(200).json(data)
   } else {
     res.status(400).json([]);
