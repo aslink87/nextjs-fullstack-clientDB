@@ -8,39 +8,28 @@ import {
   ModalBody,
   useDisclosure,
 } from '@chakra-ui/react'
-import UpdateForm from '../../form/UpdateForm'
-import { ClientModel } from '../../../lib/new/types';
-import { useRouter } from "next/router";
+import UpdateHouseholdForm from '../../form/UpdateHouseholdForm'
+import { HouseholdModel } from '../../../lib/new/types';
 
-export interface IUpdateClient {id: number, attributes: {}}
+export interface IUpdateHousehold {
+  id: number,
+  address?: string
+}
 
-const UpdateClient: React.FC<IUpdateClient> = ({id, ...attributes}: any) => {
+const UpdateHousehold: React.FC<IUpdateHousehold> = (id) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const router = useRouter();
 
-  const saveEnteredDataHandler = async(enteredData: ClientModel) => {
-    const data: ClientModel = {
-      ...enteredData,
-      id: id
-    }
-    await fetch(`http://localhost:3000/api/update`, {
-      body: JSON.stringify({ data }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
-    router.push(`/results?search=${data.lastname}`);
-    onClose()
+  const saveEnteredDataHandler = async(enteredData: HouseholdModel) => {
+    console.log(enteredData)
   }
 
   return (
     <div className="update-client my-4">
-      <div className="mb-2 ml-4">
+      <div className="ml-4 mb-2">
         <Button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
           onClick={onOpen}
           >
-          Update Client
+          Update Household
         </Button>
       </div>
       <Modal
@@ -54,7 +43,7 @@ const UpdateClient: React.FC<IUpdateClient> = ({id, ...attributes}: any) => {
         />
         <ModalContent>
           <ModalBody>
-            <UpdateForm onSaveEnteredData={saveEnteredDataHandler} {...attributes}/>
+            <UpdateHouseholdForm onSaveEnteredData={saveEnteredDataHandler} {...id} />
             <div
               className="px-4 pb-3 -top-4 w-4/5 mx-auto rounded-b-md bg-gray-50 text-right sm:px-6"
             >
@@ -76,4 +65,4 @@ const UpdateClient: React.FC<IUpdateClient> = ({id, ...attributes}: any) => {
   )
 };
 
-export default UpdateClient;
+export default UpdateHousehold;

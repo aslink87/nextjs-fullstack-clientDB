@@ -27,3 +27,23 @@ export interface ClientModel {
   programs?: string,
   notes?: string
 }
+
+export interface HouseholdModel {
+  id: number,
+  address?: string,
+  city?: string,
+  zipcode?: number,
+  district?: string,
+  county?: string,
+  mortgage?: string,
+  rent?: number,
+  landlord?: string,
+  homelesstype?: string,
+  individuals?: {
+    data: [
+      {
+        id: number,
+      }
+    ]
+  }
+}

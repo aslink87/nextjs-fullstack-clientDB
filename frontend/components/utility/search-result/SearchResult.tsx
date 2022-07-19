@@ -1,5 +1,6 @@
 import { ISearchData } from '../../../lib/search/types';
 import UpdateClient from '../updateClient/UpdateClient';
+import UpdateHousehold from '../updateHousehold/UpdateHousehold';
 
 export type ISearchResult = ISearchData & React.ComponentPropsWithoutRef<'div'>;
 
@@ -9,10 +10,19 @@ const SearchResult: React.FC<ISearchResult | any> = ({
   ...divProps
 }) => {
 
+/*
   const birthyear = Date.parse(attributes.birthdate)
   const now = new Date().toISOString()
   const nowParsed = Date.parse(now)
   const age = Math.round(((nowParsed - birthyear) / 31557600000))
+*/
+
+  const calculateAge = () => {
+    const transformedBirthdate = Date.parse(attributes.birthdate);
+    let diff = Date.now() - transformedBirthdate;
+    let age = new Date(diff);
+    return Math.abs(age.getUTCFullYear() - 1970);
+  }
 
   const gender = () => {
     if (attributes.gender === 'ttf'){return 'trans male to female'}
@@ -54,7 +64,7 @@ const SearchResult: React.FC<ISearchResult | any> = ({
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Birthdate</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.birthdate} age: {age}</dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attributes.birthdate} age: {calculateAge()}</dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Gender</dt>
@@ -91,6 +101,7 @@ const SearchResult: React.FC<ISearchResult | any> = ({
           </dl>
         </div>
           <UpdateClient id={id}{...attributes} />
+          <UpdateHousehold id={id} />
       </div>
     </div>
   );
