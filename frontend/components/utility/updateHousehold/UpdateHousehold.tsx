@@ -37,7 +37,7 @@ export interface IUpdateHousehold {
   lastname: string,
 }
 
-const UpdateHousehold: React.FC = ({lastname}: any) => {
+const UpdateHousehold = (lastname: any, id: number) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ household, setHousehold ] = useState<any>()
   let searchResults: IApiSearchHouseholdResponseData = [];
@@ -84,7 +84,7 @@ const UpdateHousehold: React.FC = ({lastname}: any) => {
         />
         <ModalContent>
           <ModalBody>
-            <UpdateHouseholdForm onSaveEnteredData={saveEnteredDataHandler} lastname={lastname} household={household} />
+            <UpdateHouseholdForm onSaveEnteredData={saveEnteredDataHandler} lastname={lastname} household={household} id={id} />
             <div
               className="px-4 pb-3 -top-4 w-4/5 mx-auto rounded-b-md bg-gray-50 text-right sm:px-6"
             >

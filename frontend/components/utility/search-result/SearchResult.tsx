@@ -46,8 +46,6 @@ const SearchResult: React.FC<ISearchResult | any> = ({
     else return attributes.source
   }
   
-  const lastname = attributes.lastname
-
   return (
     <div
       {...divProps}
@@ -103,7 +101,7 @@ const SearchResult: React.FC<ISearchResult | any> = ({
           </dl>
         </div>
           <UpdateClient id={id}{...attributes} />
-          <UpdateHousehold id={id} lastname={lastname} />
+          <UpdateHousehold id={id} lastname={attributes.lastname} />
       </div>
     </div>
   );
