@@ -11,6 +11,7 @@ import {
 import UpdateHouseholdForm from '../../form/UpdateHouseholdForm'
 import { HouseholdModel } from '../../../lib/new/types';
 import { IApiSearchHouseholdResponseData } from '../../../pages/api/household';
+import Link from 'next/link';
 
 export interface IUpdateHousehold {
   household: {
@@ -40,6 +41,7 @@ export interface IUpdateHousehold {
 const UpdateHousehold = (props: {lastname: any, id: number}) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ household, setHousehold ] = useState<any>()
+  const [ houseID, setHouseID ] = useState(0)
   let searchResults: IApiSearchHouseholdResponseData = [];
 
   const onClickHandler = async() => {
@@ -58,6 +60,23 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
     }
   }
 
+  const householdID = async() => {
+    let lastname = props.lastname
+    if (lastname && lastname.length > 0) {
+      const response = await fetch(`http://localhost:3000/api/household`, {
+        body: JSON.stringify({lastname}),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      })
+      searchResults = await response.json();
+      const id = searchResults[0].id
+      setHouseID(id)
+    }
+  }
+  householdID()
+
   const saveEnteredDataHandler = async(enteredData: HouseholdModel) => {
     const data: HouseholdModel = {
       ...enteredData,
@@ -69,9 +88,10 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
     <div className="update-client my-4">
       <div className="ml-4 mb-2">
         <Button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-          onClick={onClickHandler}
-          >
-          Update Household
+        >
+          <Link href={`/household/${houseID}`}>
+            <a>Update Household</a>
+          </Link>
         </Button>
       </div>
       <Modal
@@ -108,3 +128,10 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
 };
 
 export default UpdateHousehold;
+        /*
+        <Button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+          onClick={onClickHandler}
+          >
+          Update Household
+        </Button>
+        */
