@@ -37,14 +37,15 @@ export interface IUpdateHousehold {
   lastname: string,
 }
 
-const UpdateHousehold = (lastname: any, id: number) => {
+const UpdateHousehold = (props: {lastname: any, id: number}) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ household, setHousehold ] = useState<any>()
   let searchResults: IApiSearchHouseholdResponseData = [];
 
   const onClickHandler = async() => {
     onOpen()
-    if (lastname && lastname.length > 0) {
+    let lastname = props.lastname
+    if (props.lastname && props.lastname.length > 0) {
       const response = await fetch(`http://localhost:3000/api/household`, {
         body: JSON.stringify({lastname}),
         headers: {
@@ -84,7 +85,7 @@ const UpdateHousehold = (lastname: any, id: number) => {
         />
         <ModalContent>
           <ModalBody>
-            <UpdateHouseholdForm onSaveEnteredData={saveEnteredDataHandler} lastname={lastname} household={household} id={id} />
+            <UpdateHouseholdForm onSaveEnteredData={saveEnteredDataHandler} lastname={props.lastname} household={household} id={props.id} />
             <div
               className="px-4 pb-3 -top-4 w-4/5 mx-auto rounded-b-md bg-gray-50 text-right sm:px-6"
             >

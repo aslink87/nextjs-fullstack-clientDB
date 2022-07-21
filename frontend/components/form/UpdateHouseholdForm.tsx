@@ -6,8 +6,9 @@ import {
 import { HouseholdModel } from "../../lib/new/types";
 
 const HouseholdForm = (props: {onSaveEnteredData: any, lastname: string, id: number, household: {attributes: HouseholdModel}}) => {
-  console.log(props)
-  const [address, setAddress] = useState('')
+  const clientAddress = props.household?.attributes.address
+
+  const [address, setAddress] = useState(clientAddress != undefined ? clientAddress : 'test')
 
   const addressInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,28 +22,37 @@ const HouseholdForm = (props: {onSaveEnteredData: any, lastname: string, id: num
     props.onSaveEnteredData(enteredData)
   }
 
-
   return (
     <>
       <form className="w-4/5 mx-auto pt-20" id="client-form" onSubmit={onSubmitHandler}>
         <div className="shadow sm:rounded-t-md sm:overflow-hidden">
+          <div className="bg-gray-50 text-center py-4">
+            <>
+            <span className="text-gray-500 text-center underline">Household Members:</span>
+              <ul className="mt-2">
+              {props.household?.attributes.individuals?.data.map((x: {id: number, attributes?: {firstname: string, lastname: string}}) => {
+                return <li className="text-gray-500 capitalize" key={x.id}>{x.attributes!.firstname}{' '}{x.attributes!.lastname}</li>
+                })}
+              </ul>
+            </>
+          </div>
           <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div id="notice" className="hidden w-full text-center"></div>
             <div className="grid grid-cols-6 gap-5 grid-flow-row">
-                <div className="col-span-1 mt-1 flex rounded-md h-10">
-                  <span className="inline-flex items-center px-3 rounded-l-md border-2 border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                    Address
-                  </span>
-                  <Input
-                    className="address capitalize focus:ring-indigo-500 w-14 pl-2 flex-1 block rounded-none rounded-r-md sm:text-sm border-2 border-gray-300"
-                    id="address-text"
-                    variant="unstyled"
-                    isRequired={true}
-                    _placeholder={{ opacity: 0.5, color: "#003768" }}
-                    ref={addressInputRef}
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
+                <div className="col-span-2 mt-1 flex rounded-md h-10">
+                    <span className="inline-flex items-center px-3 rounded-l-md border-2 border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                      Address
+                    </span>
+                    <Input
+                      className="address capitalize focus:ring-indigo-500 w-14 pl-2 flex-1 block rounded-none rounded-r-md sm:text-sm border-2 border-gray-300"
+                      id="address-text"
+                      variant="unstyled"
+                      isRequired={true}
+                      _placeholder={{ opacity: 0.5, color: "#003768" }}
+                      ref={addressInputRef}
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
                 </div>
             </div>
           </div>

@@ -20,7 +20,7 @@ export default async function handler(
   } = req;
 
   const getHousehold = async() => {
-    const response = await fetch(`http://localhost:1337/api/households?filters[individuals][lastname][$eq]=${lastname}`);
+    const response = await fetch(`http://localhost:1337/api/households?populate=*&filters[individuals][lastname][$eq]=${lastname}`);
     const json = await response.json()
     const resData = json.data
     return res.status(200).json(resData)
