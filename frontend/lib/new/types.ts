@@ -35,7 +35,7 @@ export interface HouseholdModel {
   zipcode?: number,
   district?: string,
   county?: string,
-  mortgage?: string,
+  mortgage?: number,
   rent?: number,
   landlord?: string,
   homelesstype?: string,

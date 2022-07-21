@@ -34,26 +34,3 @@ export default async function handler(
     return res.status(500).json([])
   }
 }
-
-
-/*
-  // update client
-  const updateClient = async() => {
-    const updateData = {
-      "data": {
-        ...data
-      }
-    }
-    console.log(updateData)
-    const response = await fetch(`http://localhost:1337/api/individuals/${data.id}`, {
-      body: JSON.stringify(updateData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'PUT',
-    });
-    const json = await response.json()
-    const resData = json.data
-    return res.status(200).json(resData)
-  }
-*/

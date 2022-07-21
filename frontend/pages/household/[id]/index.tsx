@@ -17,7 +17,6 @@ Household.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  console.log(context.params)
   const res = await fetch(`http://localhost:1337/api/households/${context?.params?.id}?populate=*`)
 
   const household = await res.json()
