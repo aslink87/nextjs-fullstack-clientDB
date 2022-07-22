@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import HouseholdForm from '../../../components/form/UpdateHouseholdFormTest'
+import HouseholdForm from '../../../components/form/UpdateHouseholdForm'
 import { NextPageWithLayout } from "../../page";
 import PrimaryLayout from '../../../components/layouts/primary/PrimaryLayout';
 

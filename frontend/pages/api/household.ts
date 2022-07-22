@@ -23,11 +23,11 @@ export default async function handler(
     const response = await fetch(`http://localhost:1337/api/households?populate=*&filters[individuals][lastname][$eq]=${lastname}`);
     const json = await response.json()
     const resData = json.data
+    console.log(resData)
     return res.status(200).json(resData)
   }
 
   if (req.method === 'POST' && lastname) {
-    console.log('data', lastname)
     getHousehold()
   } else {
     console.log('else')

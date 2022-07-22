@@ -60,6 +60,7 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
     }
   }
 
+  //TODO: put this in a useEffect so it only fires once?
   const householdID = async() => {
     let lastname = props.lastname
     if (lastname && lastname.length > 0) {
@@ -128,10 +129,3 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
 };
 
 export default UpdateHousehold;
-        /*
-        <Button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-          onClick={onClickHandler}
-          >
-          Update Household
-        </Button>
-        */
