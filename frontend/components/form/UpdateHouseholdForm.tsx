@@ -90,7 +90,7 @@ const HouseholdForm = ({household, id}: any) => {
                     placeholder={household.city}
                     className="city capitalize h-10 w-full focus:ring-indigo-500 rounded-none rounded-r-md sm:text-sm border-2 border-gray-300"
                     >
-                    <option value="plainwell">Plainwell</option>
+                    <option value="plainwell">Ptown</option>
                     <option value="alamo">Alamo</option>
                     <option value="cooper">Cooper</option>
                     <option value="gunplain">Gun Plain</option>
