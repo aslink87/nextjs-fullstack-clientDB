@@ -2,11 +2,22 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import HouseholdForm from '../../../components/form/UpdateHouseholdForm'
 import { NextPageWithLayout } from "../../page";
 import PrimaryLayout from '../../../components/layouts/primary/PrimaryLayout';
+import { HouseholdModel } from "../../../lib/new/types";
 
 const Household: NextPageWithLayout = ({household, id}: any) => {
   const data = household.data.attributes
+
+  const saveEnteredDataHandler = (enteredHouseholdData: HouseholdModel) => {
+    const enteredData = {...enteredHouseholdData}
+    console.log('hello')
+    const data = {
+      address: enteredData.address
+    }
+    console.log(data)
+  }
+
   return (
-    <HouseholdForm household={data} id={id}/>
+    <HouseholdForm onSaveEnteredData={saveEnteredDataHandler} household={data} id={id}/>
   )
 }
 

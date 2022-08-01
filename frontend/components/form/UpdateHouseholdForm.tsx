@@ -8,7 +8,13 @@ import {
 } from "@chakra-ui/react";
 import { HouseholdModel } from "../../lib/new/types";
 
-const HouseholdForm = ({household, id}: any) => {
+export interface IHouseholdForm {
+  onSaveEnteredData: any,
+  household: HouseholdModel,
+  id: number
+}
+
+const HouseholdForm: React.FC<IHouseholdForm> = ({onSaveEnteredData, household, id}) => {
   const [useraddress, setUseraddress] = useState(household.address)
 
   const addressInputRef = useRef<HTMLInputElement>(null);
@@ -21,7 +27,7 @@ const HouseholdForm = ({household, id}: any) => {
   const landlordInputRef = useRef<HTMLInputElement>(null);
   const homelessTypeInputRef = useRef<HTMLSelectElement>(null);
 
-  const onSubmitHandler = async(event: React.FormEvent) => {
+  const onSubmitHandler = (event: React.FormEvent) => {
     event.preventDefault()
 
     const enteredData: HouseholdModel = {
@@ -36,14 +42,7 @@ const HouseholdForm = ({household, id}: any) => {
       landlord: landlordInputRef.current!.value === '' ? household.landlord : landlordInputRef.current!.value,
       homelesstype: homelessTypeInputRef.current!.value === '' ? household.homelesstype : homelessTypeInputRef.current!.value,
     }
-    console.log(enteredData)
-    await fetch('http://localhost:3000/api/updatehousehold', {
-      body: JSON.stringify({ enteredData }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
+    onSaveEnteredData(enteredData)
   }
 
   return (
@@ -55,7 +54,7 @@ const HouseholdForm = ({household, id}: any) => {
             <span className="text-gray-500 text-center underline">Household Members:</span>
               <ul className="mt-2">
               {
-                household.individuals.data.map((x: {id: number, attributes?: {firstname: string, lastname: string}}) => {
+                household.individuals!.data.map((x: {id: number, attributes?: {firstname: string, lastname: string}}) => {
                 return <li className="text-gray-500 capitalize" key={x.id}>{x.attributes!.firstname}{' '}{x.attributes!.lastname}</li>
                 })
               }

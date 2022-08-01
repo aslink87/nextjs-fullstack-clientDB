@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Button,
   Modal,
@@ -38,7 +38,7 @@ export interface IUpdateHousehold {
   lastname: string,
 }
 
-const UpdateHousehold = (props: {lastname: any, id: number}) => {
+const UpdateHousehold = ({lastname, id}: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ household, setHousehold ] = useState<any>()
   const [ houseID, setHouseID ] = useState(0)
@@ -46,8 +46,8 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
 
   const onClickHandler = async() => {
     onOpen()
-    let lastname = props.lastname
-    if (props.lastname && props.lastname.length > 0) {
+    let lastnameA: string = lastname
+    if (lastnameA && lastnameA.length > 0) {
       const response = await fetch(`http://localhost:3000/api/household`, {
         body: JSON.stringify({lastname}),
         headers: {
@@ -60,27 +60,30 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
     }
   }
 
-  //TODO: put this in a useEffect so it only fires once?
-  const householdID = async() => {
-    let lastname = props.lastname
-    if (lastname && lastname.length > 0) {
-      const response = await fetch(`http://localhost:3000/api/household`, {
+  useEffect(() => {
+    let lastnameA = lastname
+    if (lastnameA && lastnameA.length > 0) {
+      const fetchData = async() => {
+        const response = await fetch(`http://localhost:3000/api/household`, {
         body: JSON.stringify({lastname}),
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'POST',
       })
-      searchResults = await response.json();
+      const searchResults = await response.json();
       const id = searchResults[0].id
       setHouseID(id)
+      };
+      fetchData();
     }
-  }
-  householdID()
+  }, [lastname])
 
-  const saveEnteredDataHandler = async(enteredData: HouseholdModel) => {
-    const data: HouseholdModel = {
-      ...enteredData,
+  const saveEnteredDataHandler = (enteredHouseholdData: HouseholdModel) => {
+    const enteredData = {...enteredHouseholdData}
+    console.log('hello')
+    const data = {
+      address: enteredData.address
     }
     console.log(data)
   }
@@ -106,7 +109,7 @@ const UpdateHousehold = (props: {lastname: any, id: number}) => {
         />
         <ModalContent>
           <ModalBody>
-            <UpdateHouseholdForm onSaveEnteredData={saveEnteredDataHandler} lastname={props.lastname} household={household} id={props.id} />
+            <UpdateHouseholdForm onSaveEnteredData={saveEnteredDataHandler} household={household} id={id} />
             <div
               className="px-4 pb-3 -top-4 w-4/5 mx-auto rounded-b-md bg-gray-50 text-right sm:px-6"
             >
