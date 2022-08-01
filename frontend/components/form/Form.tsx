@@ -515,11 +515,11 @@ const IndividualForm = (props: {onSaveEnteredData: any}) => {
                       ref={homelessTypeInputRef}
                       className="homeless h-10 w-full focus:ring-indigo-500 rounded-none rounded-r-md sm:text-sm border-2 border-gray-300"
                       >
-                      <option value="None">Not Homeless</option>
-                      <option value="FriendsFamily">With Friends/Family</option>
-                      <option value="Car">Car</option>
-                      <option value="Tent">Tent</option>
-                      <option value="Other">Other Inhabitable Place</option>
+                      <option value="none">Not Homeless</option>
+                      <option value="friends">With Friends/Family</option>
+                      <option value="car">Car</option>
+                      <option value="tent">Tent</option>
+                      <option value="other">Other Inhabitable Place</option>
                     </Select>
                   </div>
                   <div className="col-span-2 mt-1 flex rounded-md shadow-sm h-10">

@@ -9,11 +9,29 @@ const Household: NextPageWithLayout = ({household, id}: any) => {
 
   const saveEnteredDataHandler = (enteredHouseholdData: HouseholdModel) => {
     const enteredData = {...enteredHouseholdData}
-    console.log('hello')
     const data = {
-      address: enteredData.address
+      id: id,
+      address: enteredData.address,
+      city: enteredData.city,
+      zipcode: enteredData.zipcode,
+      district: enteredData.district,
+      county: enteredData.county,
+      mortgage: enteredData.mortgage,
+      rent: enteredData.rent,
+      landlord: enteredData.landlord,
+      homelesstype: enteredData.homelesstype,
     }
     console.log(data)
+
+    if (data.id) {
+      fetch(`http://localhost:3000/api/updatehousehold`, {
+          body: JSON.stringify({data}),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        });
+    }
   }
 
   return (
